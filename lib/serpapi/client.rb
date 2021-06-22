@@ -19,6 +19,8 @@ module Serpapi
 
       json = JSON.parse(response.body)
 
+      raise Error::ProductNotFound if json['product_results'].nil?
+
       product = Product.new(json['product_results'])
       product.merchants = (json.dig('sellers_results', 'online_sellers') || []).map { |m| Merchant.new(m) }
 

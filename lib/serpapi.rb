@@ -1,3 +1,4 @@
+require 'serpapi/error'
 require 'serpapi/client'
 require 'serpapi/engine'
 require 'serpapi/configuration'

@@ -15,6 +15,8 @@ module Serpapi
       response = ProductDetailsService.perform!(user: current_user, id: params[:id])
 
       respond json: response.result, serializer: ProductSerializer
+    rescue Error::ProductNotFound
+      head :not_found
     end
 
     private
