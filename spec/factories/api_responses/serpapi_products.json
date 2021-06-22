@@ -1,0 +1,22 @@
+{
+  "shopping_results": [
+    {
+      "title": "Product One",
+      "link": "https://www.example.com",
+      "product_id": "1",
+      "source": "Source",
+      "price": "€1,111.14",
+      "rating": 5.0,
+      "thumbnail": "https://www.example.com"
+    },
+    {
+      "title": "Product Two",
+      "link": "https://www.example.com",
+      "product_id": "2",
+      "source": "Converse",
+      "price": "€1,111.14",
+      "rating": 5.0,
+      "thumbnail": "https://www.example.com"
+    }
+  ]
+}
