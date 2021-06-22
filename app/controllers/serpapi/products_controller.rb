@@ -16,5 +16,11 @@ module Serpapi
 
       respond json: response.result, serializer: ProductSerializer
     end
+
+    private
+
+    def current_ability
+      @current_ability ||= ProductsAbility.new(current_user)
+    end
   end
 end
