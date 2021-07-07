@@ -7,7 +7,7 @@ module Serpapi
       :image,
       :rating,
       :source,
-      :desciption
+      :description
     )
 
     show_if :merchants? do
