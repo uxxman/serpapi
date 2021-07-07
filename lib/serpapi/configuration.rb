@@ -1,5 +1,5 @@
 module Serpapi
   class Configuration
-    attr_accessor :api_key, :domain, :location, :location_code, :update_merchant
+    attr_accessor :api_key, :domain, :location, :location_code, :cache, :update_merchant
   end
 end

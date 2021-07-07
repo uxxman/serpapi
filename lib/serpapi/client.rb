@@ -36,13 +36,13 @@ module Serpapi
     def params
       {
         num: 10,
-        filter: 0,
         tbm: 'shop',
         safe: 'active',
         api_key: Serpapi.config.api_key,
         gl: Serpapi.config.location_code,
         location: Serpapi.config.location,
-        google_domain: Serpapi.config.domain
+        google_domain: Serpapi.config.domain,
+        no_cache: Serpapi.config.cache ? false : true
       }
     end
   end

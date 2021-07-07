@@ -4,9 +4,10 @@ module Serpapi
       :id,
       :title,
       :price,
-      :source,
       :image,
-      :rating
+      :rating,
+      :source,
+      :desciption
     )
 
     show_if :merchants? do
