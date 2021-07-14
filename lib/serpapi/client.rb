@@ -21,8 +21,10 @@ module Serpapi
 
       raise Error::ProductNotFound if json['product_results'].nil?
 
-      product = Product.new(json['product_results'])
-      product.merchants = (json.dig('sellers_results', 'online_sellers') || []).map { |m| Merchant.new(m) }
+      product   = Product.new(json['product_results'])
+      merchants = json.dig('sellers_results', 'online_sellers') || []
+
+      product.merchants = merchants.sort_by { |m| m['total_price'] }.map { |m| Merchant.new(m) }
 
       product
     end

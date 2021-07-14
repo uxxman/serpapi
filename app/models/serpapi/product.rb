@@ -7,8 +7,8 @@ module Serpapi
     def initialize(json)
       @id          = json['product_id']
       @title       = json['title']
-      @price       = json['price'] || json.dig('prices', 0)
       @image       = json['thumbnail'] || json.dig('media', 0, 'link')
+      @price       = (json['price'] || json.dig('prices', 0)).to_s.split(' ').first
       @rating      = json['rating']
       @source      = json['source']
       @merchants   = []

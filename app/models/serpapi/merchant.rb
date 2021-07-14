@@ -8,7 +8,7 @@ module Serpapi
       @id    = json['position']
       @url   = json['link']
       @name  = json['name']
-      @price = json['total_price']
+      @price = json['total_price'].split(' ').first
     end
   end
 end
