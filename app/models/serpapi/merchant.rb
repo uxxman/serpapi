@@ -14,15 +14,14 @@ module Serpapi
     def expected_price
       return @price if amount.nil? || unit.nil?
 
-      cost_str, symbol = @price.split
-
-      cost = cost_str.to_d
+      sym  = price.scan(/€|$/).first
+      cost = @price.remove('€', '$').to_d
 
       case unit
       when '%'
-        "#{cost - (cost * amount / 100)} #{symbol}"
+        "#{sym}#{cost - (cost * amount / 100)}"
       else
-        "#{cost - amount} #{symbol}"
+        "#{sym}#{cost - amount}"
       end
     end
   end
