@@ -24,8 +24,9 @@ module Serpapi
       product   = Product.new(json['product_results'])
       merchants = json.dig('sellers_results', 'online_sellers') || []
       merchants = merchants.reject { |m| m['total_price'].nil? || m['name'].nil? || m['link'].nil? }
+      merchants = merchants.map { |m| Merchant.new(m) }
 
-      product.merchants = merchants.sort_by { |m| m['total_price'] }.map { |m| Merchant.new(m) }
+      product.merchants = merchants.sort_by(&:expected_price)
 
       product
     end

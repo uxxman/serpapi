@@ -6,7 +6,8 @@ module Serpapi
       :name,
       :unit,
       :price,
-      :amount
+      :amount,
+      :expected_price
     )
   end
 end
