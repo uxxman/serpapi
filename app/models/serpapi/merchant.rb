@@ -19,7 +19,7 @@ module Serpapi
 
       case unit
       when '%'
-        "#{sym}#{cost - (cost * amount / 100)}"
+        "#{sym}#{format('%.2f', cost - (cost * amount / 100))}"
       else
         "#{sym}#{cost - amount}"
       end
