@@ -5,16 +5,14 @@ module Serpapi
 
     # GET /products
     def index
-      response = ProductListService.perform!(user: current_user, query: params[:query])
-
-      respond json: response.result, serializer: ProductSerializer
+      response  = ProductListService.perform!(user: current_user, query: params[:query])
+      @products = response.result
     end
 
     # GET /products/:id
     def show
       response = ProductDetailsService.perform!(user: current_user, id: params[:id])
-
-      respond json: response.result, serializer: ProductSerializer
+      @product = response.result
     rescue Error::ProductNotFound
       head :not_found
     end
