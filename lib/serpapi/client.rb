@@ -9,7 +9,7 @@ module Serpapi
 
       list = JSON.parse(response.body)['shopping_results'] || []
 
-      list.filter_map { |p| Product.new(p) unless p['product_id'].nil? }.take(10)
+      list.filter_map { |p| Product.new(p) unless p['product_id'].nil? }.take(12)
     end
 
     def product_details(id, locale: 'en')
@@ -39,7 +39,7 @@ module Serpapi
 
     def params
       {
-        num: 10,
+        num: 25,
         tbm: 'shop',
         safe: 'active',
         api_key: Serpapi.config.api_key,
