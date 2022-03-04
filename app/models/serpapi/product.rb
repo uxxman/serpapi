@@ -14,5 +14,9 @@ module Serpapi
       @merchants   = []
       @description = json['description']
     end
+
+    def valid?
+      id.present?
+    end
   end
 end

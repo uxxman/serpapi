@@ -17,11 +17,10 @@ module Serpapi
         req.params = params.merge(product_id: id, hl: locale, engine: 'google_product')
       end
 
-      json = JSON.parse(response.body)
+      json    = JSON.parse(response.body)
+      product = Product.new(json['product_results'])
+      raise Error::ProductNotFound unless product.valid?
 
-      raise Error::ProductNotFound if json['product_results'].nil?
-
-      product   = Product.new(json['product_results'])
       merchants = json.dig('sellers_results', 'online_sellers') || []
       merchants = merchants.reject { |m| m['total_price'].nil? || m['name'].nil? || m['link'].nil? }
       merchants = merchants.map { |m| Merchant.new(m) }
