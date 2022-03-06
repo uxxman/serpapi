@@ -34,6 +34,7 @@ module Serpapi
       list
         .select(&:valid?)
         .sort_by(&:expected_price)
+        .take(5)
     end
 
     def connection
