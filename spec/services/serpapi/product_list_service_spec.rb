@@ -10,7 +10,12 @@ describe Serpapi::ProductListService do
   end
 
   context 'with valid parameters', :serpapi do
-    let(:response) { described_class.perform(user: OpenStruct.new(locale: 'en'), query: 'ipad') }
+    let(:user)     { double }
+    let(:response) { described_class.perform(user: user, query: 'ipad') }
+
+    before do
+      allow(user).to receive(:locale).and_return('en')
+    end
 
     it 'returns with success' do
       expect(response.success?).to be(true)

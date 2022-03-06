@@ -10,8 +10,12 @@ describe Serpapi::ProductDetailsService do
   end
 
   context 'with valid parameters', :serpapi do
-    let(:customer) { create(:customer) }
-    let(:response) { described_class.perform(user: OpenStruct.new(locale: 'en'), id: 1) }
+    let(:user)     { double }
+    let(:response) { described_class.perform(user: user, id: 1) }
+
+    before do
+      allow(user).to receive(:locale).and_return('en')
+    end
 
     it 'returns with success' do
       expect(response.success?).to be(true)
@@ -20,7 +24,7 @@ describe Serpapi::ProductDetailsService do
 
     it 'returns product details with merchants' do
       expect(response.result.merchants.size).to eq(2)
-      expect(response.result.merchants.first.amount).to eq(nil)
+      expect(response.result.merchants.first.amount).to be_nil
       expect(response.result.merchants.last.amount).to eq(5.00)
     end
   end

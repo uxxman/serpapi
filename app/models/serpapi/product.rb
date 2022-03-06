@@ -1,22 +1,50 @@
 module Serpapi
   class Product
-    attr_reader :id, :title, :source, :price, :image, :rating, :description
-
     attr_accessor :merchants
 
     def initialize(json)
-      @id          = json['product_id']
-      @title       = json['title']
-      @image       = json['thumbnail'] || json.dig('media', 0, 'link')
-      @price       = (json['price'] || json.dig('prices', 0)).to_s.split(' ').first
-      @rating      = json['rating']
-      @source      = json['source']
-      @merchants   = []
-      @description = json['description']
+      @json = json
+      @merchants = []
+    end
+
+    def id
+      @json['product_id']
+    end
+
+    def title
+      @json['title']
+    end
+
+    def source
+      @json['source']
+    end
+
+    def rating
+      @json['rating']
+    end
+
+    def description
+      @json['description']
+    end
+
+    def image
+      @image ||= @json['thumbnail'] || @json.dig('media', 0, 'link')
+    end
+
+    def price
+      @price ||= (@json['price'] || @json.dig('prices', 0)).gsub(/\D/, '').to_d / 100
+    end
+
+    def currency
+      @currency ||= (@json['price'] || @json.dig('prices', 0)).scan(/€|$/).first
     end
 
     def valid?
       id.present?
+    end
+
+    def inspect
+      "#<#{self.class.name}:#{object_id}>"
     end
   end
 end

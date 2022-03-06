@@ -7,9 +7,9 @@ module Serpapi
         req.params = params.merge(q: query, hl: locale, engine: 'google')
       end
 
-      list = JSON.parse(response.body)['shopping_results'] || []
+      list = (JSON.parse(response.body)['shopping_results'] || []).map { |p| Product.new(p) }
 
-      list.filter_map { |p| Product.new(p) unless p['product_id'].nil? }.take(12)
+      list.filter(&:valid?).take(12)
     end
 
     def product_details(id, locale: 'en')
@@ -21,16 +21,20 @@ module Serpapi
       product = Product.new(json['product_results'])
       raise Error::ProductNotFound unless product.valid?
 
-      merchants = json.dig('sellers_results', 'online_sellers') || []
-      merchants = merchants.reject { |m| m['total_price'].nil? || m['name'].nil? || m['link'].nil? }
-      merchants = merchants.map { |m| Merchant.new(m) }
-
-      product.merchants = merchants.sort_by(&:expected_price)
+      product.merchants = merchants(json.dig('sellers_results', 'online_sellers') || [])
 
       product
     end
 
     private
+
+    def merchants(data)
+      list = data.map { |m| Merchant.new(m) }
+
+      list
+        .select(&:valid?)
+        .sort_by(&:expected_price)
+    end
 
     def connection
       @connection ||= Faraday.new(BASE_URL)

@@ -9,6 +9,8 @@ Gem::Specification.new do |spec|
   spec.summary     = 'Serpapi Wrapper'
   spec.description = 'Serpapi Wrapper Rails Engine.'
 
+  spec.metadata['rubygems_mfa_required'] = 'true'
+
   spec.required_ruby_version = Gem::Requirement.new('>= 2.7.0')
 
   spec.files = Dir['{app,config,db,lib}/**/*', 'README.md']

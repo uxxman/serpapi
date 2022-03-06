@@ -1,27 +1,51 @@
 module Serpapi
   class Merchant
-    attr_reader :id, :name, :price
-
     attr_accessor :unit, :url, :amount
 
     def initialize(json)
-      @id    = json['position']
-      @url   = json['link']
-      @name  = json['name']
-      @price = json['total_price'].split(' ').first
+      @json = json
+    end
+
+    def id
+      @json['position']
+    end
+
+    def link
+      @json['link']
+    end
+
+    def name
+      @json['name']
+    end
+
+    def price
+      @price ||= @json['total_price'].gsub(/\D/, '').to_d / 100
+    end
+
+    def currency
+      @currency ||= @json['total_price'].scan(/€|$/).first
+    end
+
+    def valid?
+      name.present? && price.present? && link.present?
+    end
+
+    def cashback?
+      amount.present? && unit.present?
+    end
+
+    def inspect
+      "#<#{self.class.name}:#{object_id}>"
     end
 
     def expected_price
-      return @price if amount.nil? || unit.nil?
-
-      sym  = price.scan(/€|$/).first
-      cost = @price.remove('€', '$').to_d
+      return price if amount.nil? || unit.nil?
 
       case unit
       when '%'
-        "#{sym}#{format('%.2f', cost - (cost * amount / 100))}"
+        price - (price * amount / 100).round(2)
       else
-        "#{sym}#{cost - amount}"
+        price - amount
       end
     end
   end
