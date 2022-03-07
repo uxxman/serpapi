@@ -31,7 +31,7 @@ module Serpapi
     end
 
     def valid?
-      name.present? && price.present? && link.present?
+      name.present? && link.present? && @json['total_price'].present?
     end
 
     def cashback?
