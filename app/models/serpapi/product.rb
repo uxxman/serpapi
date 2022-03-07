@@ -35,8 +35,12 @@ module Serpapi
       @price ||= (@json['price'] || @json.dig('prices', 0)).gsub(/\D/, '').to_d / 100
     end
 
+    def currency_symbol
+      @currency_symbol ||= (@json['price'] || @json.dig('prices', 0)).scan(/€|$/).first
+    end
+
     def currency
-      @currency ||= (@json['price'] || @json.dig('prices', 0)).scan(/€|$/).first
+      @currency ||= CurrencyMapper::SYMBOLS[currency_symbol] || 'EUR'
     end
 
     def valid?
