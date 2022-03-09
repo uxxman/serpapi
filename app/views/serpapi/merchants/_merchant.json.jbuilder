@@ -5,4 +5,6 @@ json.unit merchant.unit
 json.price merchant.price
 json.amount merchant.amount
 json.currency merchant.currency
+json.offer_id merchant.offer_id
+json.cashback merchant.cashback?
 json.expected_price merchant.expected_price

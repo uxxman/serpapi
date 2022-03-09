@@ -1,6 +1,6 @@
 module Serpapi
   class Merchant
-    attr_accessor :unit, :url, :amount
+    attr_accessor :unit, :url, :amount, :offer_id
 
     def initialize(json)
       @json = json
@@ -35,7 +35,7 @@ module Serpapi
     end
 
     def cashback?
-      amount.present? && unit.present?
+      offer_id.present?
     end
 
     def inspect
