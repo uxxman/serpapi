@@ -44,7 +44,7 @@ module Serpapi
     end
 
     def valid?
-      id.present?
+      @json.present? && id.present?
     end
 
     def inspect
