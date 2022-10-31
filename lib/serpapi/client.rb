@@ -9,7 +9,7 @@ module Serpapi
 
       list = (JSON.parse(response.body)['shopping_results'] || []).map { |p| Product.new(p) }
 
-      list.filter(&:valid?).take(12)
+      list.filter(&:valid?).sort_by(&:price).take(15)
     end
 
     def product_details(id, locale: 'en')
@@ -46,6 +46,7 @@ module Serpapi
         num: 25,
         tbm: 'shop',
         safe: 'active',
+        device: 'desktop',
         api_key: Serpapi.config.api_key,
         gl: Serpapi.config.location_code,
         location: Serpapi.config.location,
