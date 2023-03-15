@@ -4,7 +4,7 @@ module Serpapi
 
     def products(query:, locale: 'en')
       response = connection.get('search') do |req|
-        req.params = params.merge(q: query, hl: locale, engine: 'google')
+        req.params = params.merge(q: query, hl: locale, engine: 'google', tbm: 'shop')
       end
 
       list = (JSON.parse(response.body)['shopping_results'] || []).map { |p| Product.new(p) }
@@ -44,7 +44,6 @@ module Serpapi
     def params
       {
         num: 25,
-        tbm: 'shop',
         safe: 'active',
         device: 'desktop',
         api_key: Serpapi.config.api_key,
