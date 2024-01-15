@@ -19,6 +19,10 @@ module Serpapi
       @json['seller']
     end
 
+    def source
+      seller
+    end
+
     def rating
       @json['rating']
     end
