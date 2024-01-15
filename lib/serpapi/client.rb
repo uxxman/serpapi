@@ -1,27 +1,27 @@
 module Serpapi
   class Client
-    BASE_URL = 'https://serpapi.com'.freeze
+    BASE_URL = 'https://www.searchapi.io/api/v1'.freeze
 
     def products(query:, locale: 'en')
       response = connection.get('search') do |req|
-        req.params = params.merge(q: query, hl: locale, engine: 'google', tbm: 'shop')
+        req.params = params.merge(q: query, hl: locale, engine: 'google_shopping', sort_by: 'price_low_to_high')
       end
 
       list = (JSON.parse(response.body)['shopping_results'] || []).map { |p| Product.new(p) }
 
-      list.filter(&:valid?).sort_by(&:price).take(15)
+      list.filter(&:valid?)
     end
 
     def product_details(id, locale: 'en')
-      response = connection.get('search.json') do |req|
+      response = connection.get('search') do |req|
         req.params = params.merge(product_id: id, hl: locale, engine: 'google_product')
       end
 
       json    = JSON.parse(response.body)
-      product = Product.new(json['product_results'])
+      product = Product.new(json['product'])
       raise Error::ProductNotFound unless product.valid?
 
-      product.merchants = merchants(json.dig('sellers_results', 'online_sellers') || [])
+      product.merchants = merchants(json['offers'] || [])
 
       product
     end
@@ -43,14 +43,11 @@ module Serpapi
 
     def params
       {
-        num: 25,
-        safe: 'active',
-        device: 'desktop',
+        num: 15,
         api_key: Serpapi.config.api_key,
         gl: Serpapi.config.location_code,
         location: Serpapi.config.location,
-        google_domain: Serpapi.config.domain,
-        no_cache: Serpapi.config.cache ? false : true
+        google_domain: Serpapi.config.domain
       }
     end
   end

@@ -1,24 +1,28 @@
 {
-  "product_results": {
+  "product": {
     "product_id": 1,
     "rating": 5.0,
     "title": "Product One",
     "prices": ["€1,111.14"],
     "description": "Product Description",
-    "media": [{ "link": "https://www.example.com" }]
+    "images": ["https://www.example.com"]
   },
-  "sellers_results": {
-    "online_sellers": [
-      {
-        "name": "Converse",
-        "link": "https://www.example.com",
-        "total_price": "340,99 €"
-      },
-      {
-        "name": "saturn.de",
-        "link": "https://www.example.com",
-        "total_price": "349,99 €"
+  "offers": [
+    {
+      "link": "https://www.example.com",
+      "total_price": "340,99 €",
+      "extracted_total_price": 340.99,
+      "merchant": {
+        "name": "Converse"
       }
-    ]
-  }
+    },
+    {
+      "link": "https://www.example.com",
+      "total_price": "349,99 €",
+      "extracted_total_price": 349.99,
+      "merchant": {
+        "name": "saturn.de"
+      }
+    }
+  ]
 }

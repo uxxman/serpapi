@@ -9,7 +9,7 @@ describe Serpapi::ProductDetailsService do
     end
   end
 
-  context 'with valid parameters', :serpapi do
+  context 'with valid parameters', :serpapi_product_details do
     let(:user)     { double }
     let(:response) { described_class.perform(user: user, id: 1) }
 

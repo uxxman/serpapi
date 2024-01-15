@@ -15,19 +15,15 @@ module Serpapi
     end
 
     def name
-      @json['name']
+      @json.dig('merchant', 'name')
     end
 
     def price
-      @price ||= @json['total_price'].scan(/(\d+[.,]\d+)/).flatten.first.tr(',', '.').to_f
-    end
-
-    def currency_symbol
-      @currency_symbol ||= @json['total_price'].scan(/€|$/).first
+      @price ||= @json['extracted_total_price']
     end
 
     def currency
-      @currency ||= CurrencyMapper::SYMBOLS[currency_symbol] || 'EUR'
+      @currency ||= Currencies[@json['total_price'].scan(/€|$/).first]
     end
 
     def valid?
