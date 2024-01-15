@@ -15,8 +15,8 @@ module Serpapi
       @json['title']
     end
 
-    def source
-      @json['source']
+    def seller
+      @json['seller']
     end
 
     def rating
@@ -28,19 +28,15 @@ module Serpapi
     end
 
     def image
-      @image ||= @json['thumbnail'] || @json.dig('media', 0, 'link')
+      @image ||= @json['thumbnail'] || @json.dig('images', 0)
     end
 
     def price
-      @price ||= (@json['price'] || @json.dig('prices', 0)).scan(/(\d+[.,]\d+)/).flatten.first.tr(',', '.').to_f
-    end
-
-    def currency_symbol
-      @currency_symbol ||= (@json['price'] || @json.dig('prices', 0)).scan(/€|$/).first
+      @price ||= @json['extracted_price'] || merchants.first&.price
     end
 
     def currency
-      @currency ||= CurrencyMapper::SYMBOLS[currency_symbol] || 'EUR'
+      @currency ||= Currencies[@json['price']&.scan(/€|$/)&.first] || merchants.first&.currency
     end
 
     def valid?
