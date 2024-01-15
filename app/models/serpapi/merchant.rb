@@ -19,7 +19,7 @@ module Serpapi
     end
 
     def price
-      @price ||= @json['total_price'].gsub(/\D/, '').to_d / 100
+      @price ||= @json['total_price'].scan(/(\d+[.,]\d+)/).flatten.first.tr(',', '.').to_f
     end
 
     def currency_symbol
@@ -31,15 +31,11 @@ module Serpapi
     end
 
     def valid?
-      name.present? && link.present? && @json['total_price'].present?
+      name.present? && link.present? && price.present?
     end
 
     def cashback?
       offer_id.present?
-    end
-
-    def inspect
-      "#<#{self.class.name}:#{object_id}>"
     end
 
     def expected_price

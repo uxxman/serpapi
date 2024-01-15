@@ -32,7 +32,7 @@ module Serpapi
     end
 
     def price
-      @price ||= (@json['price'] || @json.dig('prices', 0)).gsub(/\D/, '').to_d / 100
+      @price ||= (@json['price'] || @json.dig('prices', 0)).scan(/(\d+[.,]\d+)/).flatten.first.tr(',', '.').to_f
     end
 
     def currency_symbol
@@ -45,10 +45,6 @@ module Serpapi
 
     def valid?
       @json.present? && id.present?
-    end
-
-    def inspect
-      "#<#{self.class.name}:#{object_id}>"
     end
   end
 end
