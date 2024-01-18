@@ -4,12 +4,12 @@ module Serpapi
 
     def products(query:, locale: 'en')
       response = connection.get('search') do |req|
-        req.params = params.merge(q: query, hl: locale, engine: 'google_shopping', sort_by: 'price_low_to_high')
+        req.params = params.merge(q: query, hl: locale, engine: 'google_shopping')
       end
 
       list = (JSON.parse(response.body)['shopping_results'] || []).map { |p| Product.new(p) }
 
-      list.filter(&:valid?)
+      list.filter(&:valid?).sort_by(&:price)
     end
 
     def product_details(id, locale: 'en')
