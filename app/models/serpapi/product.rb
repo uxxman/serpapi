@@ -44,7 +44,7 @@ module Serpapi
     end
 
     def valid?
-      @json.present? && id.present?
+      @json.present? && id.present? && price.present?
     end
   end
 end
