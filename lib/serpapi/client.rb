@@ -19,9 +19,9 @@ module Serpapi
 
       json    = JSON.parse(response.body)
       product = Product.new(json['product'])
-      raise Error::ProductNotFound unless product.valid?
-
       product.merchants = merchants(json['offers'] || [])
+
+      raise Error::ProductNotFound unless product.valid?
 
       product
     end
